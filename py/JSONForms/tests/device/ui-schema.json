@@ -1,0 +1,116 @@
+{
+  "type": "HorizontalLayout",
+  "properties": {
+    "size": {
+      "height": 480,
+      "width": 800
+    }
+  },
+  "elements": [
+    {
+      "type": "VerticalLayout",
+      "scope": "sideButtonPanel",
+      "elements": [
+        {
+          "type": "Container",
+          "scope": "sideButtonContainer",
+          "name": "leftButton1Container",
+          "elements": [ {
+              "type": "Button",
+              "scope": "",
+              "name": "HelpButton",
+              "properties": {
+                  "label": "Help"
+              }]
+          }
+        },
+        {
+          "type": "Container",
+          "scope": "sideButtonContainer",
+          "name": "leftButton2Container"
+        },
+        {
+          "type": "Container",
+          "scope": "sideButtonContainer",
+          "name": "leftButton3Container"
+        },
+        {
+          "type": "Container",
+          "scope": "sideButtonContainer",
+          "name": "leftButton4Container"
+        },
+        {
+          "type": "Container",
+          "scope": "sideButtonContainer",
+          "name": "leftButton5Container"
+        }
+      ]
+    },
+    {
+      "type": "VerticalLayout",
+      "scope": "centerPanelContainer",
+      "elements": [
+        {
+          "type": "Container",
+          "scope": "centerPanel",
+          "name": ""
+        },
+        {
+          "type": "Container",
+          "scope": "centerPanel",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "type": "VerticalLayout",
+      "scope": "centerPanelContainer",
+      "elements": [
+        {
+          "type": "Container",
+          "scope": "centerPanel",
+          "name": ""
+        },
+        {
+          "type": "Container",
+          "scope": "centerPanel",
+          "name": ""
+        }
+      ]
+    },
+
+    {
+      "type": "VerticalLayout",
+      "scope": "sideButtonPanel",
+      "elements": [
+        {
+          "type": "Container",
+          "scope": "sideButtonContainer",
+          "name": "rightButton1Container"
+        },
+        {
+          "type": "Container",
+          "scope": "sideButtonContainer",
+          "name": "rightButton2Container"
+        },
+        {
+          "type": "Container",
+          "scope": "sideButtonContainer",
+          "name": "rightButton3Container"
+        },
+        {
+          "type": "Container",
+          "scope": "sideButtonContainer",
+          "name": "rightButton4Container"
+        },
+        {
+          "type": "Container",
+          "scope": "sideButtonContainer",
+          "name": "rightButton5Container"
+        }
+      ]
+    }
+
+
+  ]
+}

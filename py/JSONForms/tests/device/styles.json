@@ -1,0 +1,52 @@
+{ 
+  "sideButtonPanel": {
+    "properties": {
+      "size": {
+        "height": 460,
+        "width": 132
+      },
+      "pad-all": {
+          "size": 0
+      },
+    }
+  },
+  
+  "sideButtonContainer": {
+    "properties": {
+       "pad-all": {
+          "size": 0
+      },
+      "size": {
+        "height": 85,
+        "width": 125
+      },
+
+    },
+
+  },
+
+  "centerPanelContainer": {
+      "properties": {
+        "size": {
+         "height": 470,
+         "width": 240
+       },
+       "pad-all": {
+          "size": 0
+        }
+      }
+  },
+
+  "centerPanel": {
+      "properties": {
+        "size": {
+         "height": 230,
+         "width": 230
+       },
+       "pad-all": {
+          "size": 0
+        }
+      }
+  },
+
+}
