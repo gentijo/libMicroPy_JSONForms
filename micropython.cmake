@@ -9,12 +9,21 @@ get_filename_component(MICROPY_JSONForms_DIR ../../../../modules/libMicroPy_JSON
 #set (ROS_MICROPY_LCD_PANEL 8048SC050C2)
 #set (ROS_MICROPY_LCD_DRIVER_DIR ${ROS_MICROPY_GUI_DIR}/lcd-display-drivers/${ROS_MICROPY_LCD_PANEL})
 
+set (LVGL_DRIVER_SRC 
+    ${MICROPY_JSONForms_DIR}/lvgl_drivers/ESP32/ESP32S3_8048S050C/bsp.c
+)
+
+set (LVGL_DRIVER_INC 
+    ${MICROPY_JSONForms_DIR}/lvgl_drivers/ESP32/ESP32S3_8048S050C
+)
+
 set (MICROPY_JSONForms_SRC
     ${MICROPY_JSONForms_DIR}/main.c
     ${MICROPY_JSONForms_DIR}/mpy_lv_functions.cpp
     ${MICROPY_JSONForms_DIR}/object-mgr/mpy_LvObjectFactory.cpp
     ${MICROPY_JSONForms_DIR}/object-mgr/mpy_LvObject.cpp
     ${MICROPY_JSONForms_DIR}/object-mgr/cJSON_helpers.cpp
+    ${LVGL_DRIVER_SRC}
 
 )
 
@@ -31,6 +40,7 @@ set (MICROPY_JSONForms_INC
     ${MICROROS_INC_DIR}/std_msgs
     ${MICROROS_INC_DIR}/sensor_msgs
     ${MICROROS_INC_DIR}/rosidl_typesupport_introspection_c
+    ${LVGL_DRIVER_INC}
 )
 
 # Add our source files to the lib
