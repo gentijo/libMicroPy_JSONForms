@@ -51,6 +51,11 @@ void run_lcd_display_loop()
   }
 }
 
+mp_obj_t mp_init_json_forms()
+{
+  init_LvObjectFactory();
+  return mp_const_none;
+}
 
 /**
  * 
@@ -83,8 +88,10 @@ MP_DEFINE_CONST_FUN_OBJ_0(init_lcd_display_obj, mp_init_lcd_display);
 MP_DEFINE_CONST_FUN_OBJ_3(create_LvObject_obj, create_LvObject);
 MP_DEFINE_CONST_FUN_OBJ_0(init_lvgl_screen_obj, mp_init_lvgl_screen);
 MP_DEFINE_CONST_FUN_OBJ_0(display_lvgl_screen_obj, display_lvgl_screen);
-MP_DEFINE_CONST_FUN_OBJ_0(lv_example_flex_1_obj, lv_example_flex_1);
+MP_DEFINE_CONST_FUN_OBJ_0(init_json_forms_obj, mp_init_json_forms
 
+
+// MP_DEFINE_CONST_FUN_OBJ_0(lv_example_flex_1_obj, lv_example_flex_1);
 
 
 const mp_rom_map_elem_t mp_gui_module_globals_table[] = {
@@ -93,7 +100,10 @@ const mp_rom_map_elem_t mp_gui_module_globals_table[] = {
     {MP_ROM_QSTR(MP_QSTR_create_LvObject), MP_ROM_PTR(&create_LvObject_obj)},
     {MP_ROM_QSTR(MP_QSTR_init_lvgl_screen), MP_ROM_PTR(&init_lvgl_screen_obj)},
     {MP_ROM_QSTR(MP_QSTR_display_lvgl_screen), MP_ROM_PTR(&display_lvgl_screen_obj)},
-    {MP_ROM_QSTR(MP_QSTR_lv_example_flex_1), MP_ROM_PTR(&lv_example_flex_1_obj)},
+    {MP_ROM_QSTR(MP_QSTR_init_json_forms), MP_ROM_PTR(&init_json_forms_obj)},
+
+    
+//   {MP_ROM_QSTR(MP_QSTR_lv_example_flex_1), MP_ROM_PTR(&lv_example_flex_1_obj)},
 };
 
 MP_DEFINE_CONST_DICT(mp_gui_module_globals, mp_gui_module_globals_table);
