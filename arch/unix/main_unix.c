@@ -19,7 +19,7 @@ MP_DEFINE_CONST_FUN_OBJ_0(display_lvgl_screen_obj, display_lvgl_screen);
 
 
 const mp_rom_map_elem_t mp_gui_module_globals_table[] = {
-    {MP_ROM_QSTR(MP_QSTR___name__), MP_ROM_QSTR(MP_QSTR_MicroPy_JSONForms)},
+    {MP_ROM_QSTR(MP_QSTR___name__), MP_ROM_QSTR(MP_QSTR_JSONForms_LVGL_Driver)},
     {MP_ROM_QSTR(MP_QSTR_init_display), MP_ROM_PTR(&init_display_obj)},
     {MP_ROM_QSTR(MP_QSTR_create_LvObject), MP_ROM_PTR(&create_LvObject_obj)},
     {MP_ROM_QSTR(MP_QSTR_display_lvgl_screen), MP_ROM_PTR(&display_lvgl_screen_obj)},

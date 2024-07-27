@@ -7,6 +7,7 @@
 #include "mpy_lv_functions.h"
 #include <thread>
 #include <chrono>
+#include "display_thread.h"
 
 
 /***
