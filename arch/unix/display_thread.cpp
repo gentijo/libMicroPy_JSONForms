@@ -4,7 +4,7 @@
 #include "py/obj.h"
 
 #include "lvgl.h"
-#include "mpy_lv_functions.h"
+#include "mpy/mpy_lv_functions.h"
 #include <thread>
 #include <chrono>
 #include "display_thread.h"
@@ -48,9 +48,10 @@ void run_display_loop()
 */
 mp_obj_t mp_init_display()
 {
-  init_LvObjectFactory();
+  printf("Unix init ObjFac\r\n");
+  mpy_init_LvObjectFactory();
 
-  static std::thread thread_obj(run_display_loop);
+ // static std::thread thread_obj(run_display_loop);
 
   return mp_const_none;
 }

@@ -5,12 +5,14 @@
 #include <stdio.h>
 #include "lvgl.h"
 
+#include <iostream>
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#include "cJSON.h"
+#include "cJSON/cJSON.h"
 
 #ifdef __cplusplus
 }
@@ -26,9 +28,10 @@ public:
 
     mpy_LvObject(const mpy_LvObject *parent)
     {
-
+        printf("LvObj const\r\n");
         if (parent == NULL)
         {
+            printf("Null parent\r\n");
             lvObject = lv_obj_create(NULL);
         }
         else
@@ -53,7 +56,9 @@ public:
 
         lv_obj_set_style_border_color(lvObject, lv_color_black(), LV_PART_MAIN);
         lv_obj_set_style_border_width(lvObject, 1, LV_PART_MAIN);
+
     }
+
     //
     // Create an mpy_LvObject from existing lv_obj
     mpy_LvObject(lv_obj_t *node)
