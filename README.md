@@ -1,5 +1,5 @@
 # MicroPython JSONForms
-## Problem statemwent
+## Problem statement
 Producing embedded interactive displays can be challenging. Micropython JSON Forms includes a web based drag and drop GUI editor that produces JSON data that describes the form. This form data can then be used in a renderer to provide a cross platform, implementation non specific, interactive. The renderer in this package supports the [LVGL](https://lvgl.io/) graphics library, which is supported by many platforms. 
 
 
