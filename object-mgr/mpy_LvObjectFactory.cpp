@@ -6,7 +6,7 @@
 
 extern "C" {
 
-#include "cJSON.h"
+#include "cJSON/cJSON.h"
 
 }
 

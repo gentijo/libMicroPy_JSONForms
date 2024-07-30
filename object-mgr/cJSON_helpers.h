@@ -9,7 +9,7 @@ extern "C" {
 #include "py/obj.h"
 #include "py/runtime.h"
 
-#include "cJSON.h"
+#include "cJSON/cJSON.h"
 }
 
 bool getcJSON_IntProperty(const cJSON *properties, const char *name, int* retVal);

@@ -1,19 +1,18 @@
 import json
-from LVGL_MockDriver   import LVGL_MockDriver
-from LVGL_Driver       import LVGL_Driver
-from MicroPyGUI        import init_lvgl_screen, display_lvgl_screen
+from JSONForms_Driver import JSONForms_Driver, JSONForms_MockDriver
 
-class JSONFormRenderer:
+from JSONForms_Style import JSONForms_Style
+from JSONForms_Driver import JSONForms_Driver
 
-    driver:LVGL_Driver = LVGL_Driver
-
+class JSONForms_Renderer:
+    driver:JSONForms_Driver = JSONForms_Driver
 #
 #
 #
     @staticmethod
     def enableTestMode():
         print("Entering test mode")
-        JSONFormRenderer.driver = LVGL_MockDriver
+        JSONForms_Renderer.driver = JSONForms_MockDriver
 
 #
 #
@@ -24,18 +23,16 @@ class JSONFormRenderer:
         with open(filename) as f:
             definition = json.load(f)
             print(definition)
-            JSONFormRenderer.parseLayoutDefinition(definition)
+            JSONForms_Renderer.parseLayoutDefinition(definition)
 #
 #
 #
     @staticmethod
     def parseLayoutDefinition(definition:dict):
-        
-        screen = init_lvgl_screen()
+        screen = JSONForms_Driver.init_JSONForms_Screen()
         parentObjects:list = []
         parentObjects.append(screen);
-        JSONFormRenderer.parseFormObject(definition, parentObjects)
-        display_lvgl_screen()
+        JSONForms_Renderer.parseFormObject(definition, parentObjects)
 
 #
 #
@@ -69,13 +66,13 @@ class JSONFormRenderer:
         if len(parentLvObjects) > 0:
             parent = parentLvObjects[-1]
             
-        #print("Parent Object size: ", len(parentLvObjects), parent)
+        print("Parent Object size: ", len(parentLvObjects), parent)
         
-        lvObject = JSONFormRenderer.driver.createLvObject(objType, scope, name, properties, parent)
+        lvObject = JSONForms_Renderer.driver.create_JSONForms_Object(objType, scope, name, properties, parent)
         parentLvObjects.append(lvObject)
-        #print("Parent Objects ", parentLvObjects)
+        print("Parent Objects ", parentLvObjects)
 
         for element in elements:
-            JSONFormRenderer.parseFormObject(element, parentLvObjects)
+            JSONForms_Renderer.parseFormObject(element, parentLvObjects)
 
         del parentLvObjects[-1]

@@ -14,36 +14,35 @@
 #include <iostream>
 #include <sstream>
 
-#include "mpy_LvBaseObjects.h"
-#include "mpy_LvObjectFactory.h"
+#include "object-mgr/mpy_LvBaseObjects.h"
+#include "object-mgr/mpy_LvObjectFactory.h"
 
-#include "mpy_lv_functions.h"
-#include "cJSON_helpers.h"
-
-
+#include "mpy/mpy_lv_functions.h"
+#include "object-mgr/cJSON_helpers.h"
 
 //
 // HAndle to the LCD Display
-lv_disp_t *g_lcd_display = NULL;
-lv_obj_t* ui_Screen1 = NULL;
+lv_disp_t *g_display = NULL;
+lv_obj_t  *g_ui_Screen = NULL;
 
-mp_obj_t init_lvgl_screen() {
+mp_obj_t mpy_init_screen() {
   
     //printf("Init lvgl screen\r\n");
+    mpy_init_LvObjectFactory();
 
-    lv_theme_t *theme = lv_theme_default_init(
-      g_lcd_display, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
-      false, LV_FONT_DEFAULT);
+    // lv_theme_t *theme = lv_theme_default_init(
+    //   g_display, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
+    //   false, LV_FONT_DEFAULT);
     
-    lv_disp_set_theme(g_lcd_display, theme);
+    // lv_disp_set_theme(g_display, theme);
   
-    ui_Screen1 = lv_obj_create(NULL);
-    //printf("(screen) lv_obj_create(NULL); = [%p]\r\n",  ui_Screen1);
-    lv_obj_clear_flag(ui_Screen1, LV_OBJ_FLAG_SCROLLABLE); 
-    lv_obj_set_size (ui_Screen1, 800, 480);/// Flags
+    g_ui_Screen = lv_obj_create(NULL);
+    printf("(screen) lv_obj_create(NULL); = [%p]\r\n",  g_ui_Screen);
+    lv_obj_clear_flag(g_ui_Screen, LV_OBJ_FLAG_SCROLLABLE); 
+    lv_obj_set_size (g_ui_Screen, 800, 480);/// Flags
 
-    lv_obj_set_x(ui_Screen1, 0);
-    lv_obj_set_y(ui_Screen1, 0);
+    lv_obj_set_x(g_ui_Screen, 0);
+    lv_obj_set_y(g_ui_Screen, 0);
         
     static lv_style_t style;
     lv_style_init(&style);
@@ -53,28 +52,30 @@ mp_obj_t init_lvgl_screen() {
 
     lv_style_set_pad_all(&style, 1);
 
-    lv_obj_add_style(ui_Screen1, &style, 0);
+    lv_obj_add_style(g_ui_Screen, &style, 0);
     
-    lv_obj_set_style_border_color(ui_Screen1, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_border_width(ui_Screen1, 0, LV_PART_MAIN);
-    lv_obj_set_align(ui_Screen1, LV_ALIGN_CENTER);
+    lv_obj_set_style_border_color(g_ui_Screen, lv_color_black(), LV_PART_MAIN);
+    lv_obj_set_style_border_width(g_ui_Screen, 0, LV_PART_MAIN);
+    lv_obj_set_align(g_ui_Screen, LV_ALIGN_CENTER);
 
-    mpy_LvObject* mpy_LvObj = new mpy_LvObject(ui_Screen1);
+    mpy_LvObject* mpy_LvObj = new mpy_LvObject(g_ui_Screen);
     g_lvObjectList.push_back(mpy_LvObj);
 
-    lv_disp_load_scr(ui_Screen1);
+    lv_disp_load_scr(g_ui_Screen);
 
-    
-    std::string str = std::to_string((unsigned long long)(void**)mpy_LvObj);
-  //  printf("Init Lv Screen complete: Lv[%p] [%p] mpyObj[%p] str[%s]\r\n", ui_Screen1, mpy_LvObj->lvObject, mpy_LvObj,  str.c_str());
+    const void * address = static_cast<const void*>(mpy_LvObj);
+    std::stringstream ss;
+    ss << address;  
+    std::string str = ss.str(); 
+    printf("Init Lv Screen complete: Lv[%p] [%p] mpyObj[%p] str[%s]\r\n", g_ui_Screen, mpy_LvObj->lvObject, mpy_LvObj,  str.c_str());
     mp_obj_t mp_str_ptr = mp_obj_new_str(str.c_str(), str.size());
 
     return mp_str_ptr;
 }
 
-mp_obj_t display_lvgl_screen() {
+mp_obj_t mpy_load_screen() {
 
-    lv_disp_load_scr(ui_Screen1);
+    lv_disp_load_scr(g_ui_Screen);
     return mp_const_none;
 
 }
@@ -84,7 +85,8 @@ mp_obj_t display_lvgl_screen() {
  * 
  * 
  */
-void  init_LvObjectFactory() {
+void  mpy_init_LvObjectFactory() {
+    //printf("Obj Fac Init\r\n");
     mpy_LvObjectFactory *f = new mpy_LvObjectFactory();
     add_LvObjectFactory(f);
 }
@@ -94,7 +96,7 @@ void  init_LvObjectFactory() {
  *
  *
  */
-mp_obj_t create_LvObject(const mp_obj_t objInfoIn, const mp_obj_t propertiesIn, const mp_obj_t parentIn)
+mp_obj_t mpy_create_LvObject(const mp_obj_t objInfoIn, const mp_obj_t propertiesIn, const mp_obj_t parentIn)
 {    
     char emptyString[2] = "";
 
@@ -150,7 +152,7 @@ mp_obj_t create_LvObject(const mp_obj_t objInfoIn, const mp_obj_t propertiesIn, 
     }
     else if (mp_const_none != propertiesIn)
     {
-         const char *cProperties = mp_obj_str_get_str(propertiesIn);
+        const char *cProperties = mp_obj_str_get_str(propertiesIn);
         //printf("Properties %s\r\n", cProperties);
         cJSONProps = cJSON_Parse(cProperties);
     }
@@ -165,27 +167,20 @@ mp_obj_t create_LvObject(const mp_obj_t objInfoIn, const mp_obj_t propertiesIn, 
 
     if (parentIn != mp_const_none) {
         cParentStr = mp_obj_str_get_str(parentIn);
+        //printf("PArent str addr %s\r\n", cParentStr);
+
         std::stringstream ss;
         ss << cParentStr;
-        int tmp(0);
+        void* tmp;
         ss >> tmp ;
+
+        //printf("Parent ptr %p\r\n", tmp);
         cParent = reinterpret_cast<mpy_LvObject*>(tmp);
     }
     else {
         printf("Parent Object is NULL\r\n");
     }
 
-    if (cParent != NULL)
-    { 
-        // printf("In Create LV Object parent:[%p] parentStr:[%s] parent lvObj:[%p]\r\n", cParent, cParentStr, cParent->lvObject);
-        // NULL is a valid parent, attaches to screen
-        // It's not NULL so let's validate that it is an existing pointer.
-        // if (auto it = std::find(g_lvObjectList.begin(), g_lvObjectList.end(), cParent); it == g_lvObjectList.end())
-        // {
-        //     // MP Error
-        //     return mp_const_none;
-        // }
-    }
     //
     // Object type was not a base object, so let's other Factories if they know this object
     mpy_LvObject *mpy_lvobj = NULL;
@@ -203,6 +198,7 @@ mp_obj_t create_LvObject(const mp_obj_t objInfoIn, const mp_obj_t propertiesIn, 
         return mp_const_none;
     }
 
+    //printf("Adding Ob Style\r\n");
     mpy_lvobj->addLvObjectStyle(cJSONProps);
 
     if (cName != NULL)
@@ -210,14 +206,19 @@ mp_obj_t create_LvObject(const mp_obj_t objInfoIn, const mp_obj_t propertiesIn, 
         g_namedObject[cName] = mpy_lvobj;
     }
 
+    //printf("Adding to object list\r\n");
     g_lvObjectList.push_back(mpy_lvobj);
 
     cJSON_Delete(cJSONProps);
 
     if (mpy_lvobj != NULL)
     {
-        std::string str = std::to_string((unsigned long long)(void**)mpy_lvobj);
-       // printf("Create Lv Object complete: Lv[%p] str[%s]\r\n", mpy_lvobj, str.c_str());
+        const void * address = static_cast<const void*>(mpy_lvobj);
+        std::stringstream ss;
+        ss << std::hex << address;  
+        std::string str = ss.str(); 
+
+        printf("Create Lv Object complete: Lv[%p] str[%s]\r\n", mpy_lvobj, str.c_str());
         mp_obj_t mp_str_ptr = mp_obj_new_str(str.c_str(), str.size());
         return mp_str_ptr;
     }
@@ -225,46 +226,4 @@ mp_obj_t create_LvObject(const mp_obj_t objInfoIn, const mp_obj_t propertiesIn, 
 };
 
 
-mp_obj_t lv_example_flex_1(void)
-{
-    /*Create a container with ROW flex direction*/
-    lv_obj_t * cont_row = lv_obj_create(lv_scr_act());
-    lv_obj_set_size(cont_row, 300, 75);
-    lv_obj_align(cont_row, LV_ALIGN_TOP_MID, 0, 5);
-    lv_obj_set_flex_flow(cont_row, LV_FLEX_FLOW_ROW);
-
-    /*Create a container with COLUMN flex direction*/
-    lv_obj_t * cont_col = lv_obj_create(lv_scr_act());
-    lv_obj_set_size(cont_col, 200, 150);
-    lv_obj_align_to(cont_col, cont_row, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
-    lv_obj_set_flex_flow(cont_col, LV_FLEX_FLOW_COLUMN);
-
-    int i;
-    for(i = 0; i < 10; i++) {
-        lv_obj_t * obj;
-        lv_obj_t * label;
-
-        /*Add items to the row*/
-        obj= lv_btn_create(cont_row);
-        lv_obj_set_size(obj, 100, LV_PCT(100));
-
-        label = lv_label_create(obj);
-        lv_label_set_text_fmt(label, "Item: %d", i);
-        lv_obj_center(label);
-
-        /*Add items to the column*/
-        // obj = lv_btn_create(cont_col);
-        obj = lv_obj_create(cont_col);
-        lv_obj_set_size(obj, LV_PCT(100), LV_SIZE_CONTENT);
-
-        lv_obj_set_style_border_color(obj, lv_color_black(), LV_PART_MAIN);
-        lv_obj_set_style_border_width(obj, 1, LV_PART_MAIN);
-
-        // label = lv_label_create(obj);
-        // lv_label_set_text_fmt(label, "Item: ");
-        // lv_obj_center(label);
-    }
-
-    return mp_const_none;
-}
 #endif

@@ -1,7 +1,6 @@
 import json
 
-
-class LVGL_Style:
+class JSONForms_Style:
 
     styles:dict = {}
 
@@ -12,13 +11,13 @@ class LVGL_Style:
             if ("properties" in styleDef):
                 properties = styleDef["properties"]
                 styles = styleDef["properties"]
-                LVGL_Style.styles[name]=styles
+                JSONForms_Style.styles[name]=styles
 
     @staticmethod
     def parseStyleDefinitionFromJSONFile(filename:str) -> None:
         with open(filename) as f:
             definition = json.load(f)
-            LVGL_Style.parseStyleDefinition(definition)
+            JSONForms_Style.parseStyleDefinition(definition)
 
     @staticmethod
     def addStyleToDict(properties:dict, style:dict) -> None:
@@ -30,14 +29,14 @@ class LVGL_Style:
         
         properties = {}
 
-        if type and (type in LVGL_Style.styles):
-            LVGL_Style.addStyleToDict(properties, LVGL_Style.styles[type])
+        if type and (type in JSONForms_Style.styles):
+            JSONForms_Style.addStyleToDict(properties, JSONForms_Style.styles[type])
 
-        if scope and (scope in LVGL_Style.styles):
-            LVGL_Style.addStyleToDict(properties, LVGL_Style.styles[scope])
+        if scope and (scope in JSONForms_Style.styles):
+            JSONForms_Style.addStyleToDict(properties, JSONForms_Style.styles[scope])
 
-        if name and (name in LVGL_Style.styles) :
-            LVGL_Style.addStyleToDict(properties, LVGL_Style.styles[name])
+        if name and (name in JSONForms_Style.styles) :
+            JSONForms_Style.addStyleToDict(properties, JSONForms_Style.styles[name])
 
         if propertiesIn and len(propertiesIn):
             for key in propertiesIn:
@@ -48,5 +47,5 @@ class LVGL_Style:
 
     @classmethod
     def dumpParsedStyles():
-        print (LVGL_Style.styles)
+        print (JSONForms_Style.styles)
 
