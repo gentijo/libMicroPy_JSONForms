@@ -1,2 +1,3 @@
-freeze("$(MPY_DIR)/../modules/libMicroPy_JSONForms/py/JSONForms/src")
+
+freeze("./py/JSONForms/src")
 

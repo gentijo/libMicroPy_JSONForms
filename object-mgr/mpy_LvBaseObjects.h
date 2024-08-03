@@ -4,6 +4,7 @@
 #include "mpy_LvObject.h"
 #include "mpy_LvObjectFactory.h"
 
+
 class mpy_LvHorizontalLayout : public mpy_LvObject {
 
     public:
@@ -12,6 +13,7 @@ class mpy_LvHorizontalLayout : public mpy_LvObject {
             lv_obj_set_layout(this->lvObject, LV_LAYOUT_FLEX);
             lv_obj_set_flex_flow(this->lvObject, LV_FLEX_FLOW_ROW);
             lv_obj_clear_flag(this->lvObject, LV_OBJ_FLAG_SCROLLABLE); 
+
         };
 };
 
@@ -20,7 +22,6 @@ class mpy_LvVerticalLayout : public mpy_LvObject {
     public:
         mpy_LvVerticalLayout(mpy_LvObject *parent)
         : mpy_LvObject(parent) {
-
             lv_obj_set_layout(this->lvObject, LV_LAYOUT_FLEX);
             lv_obj_set_flex_flow(this->lvObject, LV_FLEX_FLOW_COLUMN);
             lv_obj_clear_flag(this->lvObject, LV_OBJ_FLAG_SCROLLABLE); 
@@ -54,7 +55,7 @@ class mpy_LvButton: public  mpy_LvObject {
         };
 
         void setLabel(const cJSON* properties) {
-            printf("Button Label Str: \r\n");
+            //printf("Button Label Str: \r\n");
             if (label == NULL) label = lv_label_create(lvObject);
             char *text = properties->valuestring;
             printf("%s\r\n", text);
