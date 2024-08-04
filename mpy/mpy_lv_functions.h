@@ -7,8 +7,11 @@ extern "C" {
 
 #include "py/runtime.h"
 #include "py/obj.h"
+#include "lvgl.h"
 
 extern lv_disp_t *g_display;
+extern lv_disp_t *initialize_display();
+extern void init_display_thread();
 
 mp_obj_t mpy_init_screen();
 

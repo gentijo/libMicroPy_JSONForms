@@ -27,15 +27,18 @@ lv_obj_t  *g_ui_Screen = NULL;
 
 mp_obj_t mpy_init_screen() {
   
-    //printf("Init lvgl screen\r\n");
+    printf("Init lvgl screen\r\n");
     mpy_init_LvObjectFactory();
+    g_display = initialize_display();
 
-    // lv_theme_t *theme = lv_theme_default_init(
-    //   g_display, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
-    //   false, LV_FONT_DEFAULT);
-    
-    // lv_disp_set_theme(g_display, theme);
-  
+    if(1)
+    {
+        lv_theme_t *theme = lv_theme_default_init(
+        g_display, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
+        false, LV_FONT_DEFAULT);
+        lv_disp_set_theme(g_display, theme);
+    }
+
     g_ui_Screen = lv_obj_create(NULL);
     printf("(screen) lv_obj_create(NULL); = [%p]\r\n",  g_ui_Screen);
     lv_obj_clear_flag(g_ui_Screen, LV_OBJ_FLAG_SCROLLABLE); 
@@ -62,11 +65,14 @@ mp_obj_t mpy_init_screen() {
     g_lvObjectList.push_back(mpy_LvObj);
 
     lv_disp_load_scr(g_ui_Screen);
+    
+    init_display_thread();
 
     const void * address = static_cast<const void*>(mpy_LvObj);
     std::stringstream ss;
-    ss << address;  
-    std::string str = ss.str(); 
+    ss << std::hex << address;  
+    std::string str = ss.str();
+
     printf("Init Lv Screen complete: Lv[%p] [%p] mpyObj[%p] str[%s]\r\n", g_ui_Screen, mpy_LvObj->lvObject, mpy_LvObj,  str.c_str());
     mp_obj_t mp_str_ptr = mp_obj_new_str(str.c_str(), str.size());
 
